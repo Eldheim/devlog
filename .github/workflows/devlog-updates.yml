@@ -1,0 +1,22 @@
+name: Publish devlog updates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'devlog.md'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (полная история — нужна для дельты)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish delta to updates branch
+        run: python3 scripts/publish_updates.py
